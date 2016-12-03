@@ -1,0 +1,21 @@
+rethinkdb:
+    image: rethinkdb:2.3.5
+    volumes:
+        - rethink_db:/data
+    ports:
+        - "8080:8080"
+        - "28015:28015"
+        - "29015:29015"
+web:
+    build: ./
+    command: npm run dev
+    ports:
+        - "3000:3000"
+    volumes:
+        - ./:/code
+        - /code/node_modules
+    tty: true
+    links:
+        - rethinkdb
+    environment:
+        NODE_ENV:
